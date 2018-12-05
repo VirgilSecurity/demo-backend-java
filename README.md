@@ -50,7 +50,7 @@ $ java -jar server.jar
 
 Now, use your client code to make a request to get a JWT from the sample backend that is working on http://localhost:3000.
 
-Verify your server with a command
+You can verify the server with a command:
 
 ```
 $ curl -X POST -H "Content-Type: application/json" \
@@ -58,7 +58,7 @@ $ curl -X POST -H "Content-Type: application/json" \
   http://localhost:3000/authenticate
 ```
 
-The response should looks like
+The response should look like:
 
 ```
 {"token":"my_identity-0cfc6f0f-0024-4ea1-b5ac-93bb586c113d"}
@@ -67,20 +67,22 @@ The response should looks like
 ## Usage
 To generate JWT, you need to use the `JwtGenerator` class from the SDK.
 
-```js
-const virgilCrypto = new VirgilCrypto();
+```Java
+public JwtGenerator jwtGenerator() throws CryptoException {
+    VirgilCrypto crypto = new VirgilCrypto();
+    PrivateKey privateKey = crypto.importPrivateKey(ConvertionUtils.base64ToBytes(this.apiKey));
+    AccessTokenSigner accessTokenSigner = new VirgilAccessTokenSigner();
 
-const generator = new JwtGenerator({
-  appId: process.env.APP_ID,
-  apiKeyId: process.env.API_KEY_ID,
-  apiKey: virgilCrypto.importPrivateKey(process.env.API_PRIVATE_KEY),
-  accessTokenSigner: new VirgilAccessTokenSigner(virgilCrypto)
-});
+    JwtGenerator jwtGenerator = new JwtGenerator(appId, privateKey, apiKeyIdentifier,
+        TimeSpan.fromTime(1, TimeUnit.HOURS), accessTokenSigner);
+
+    return jwtGenerator;
+}
 
 ```
 Then you need to provide an HTTP endpoint which will return the JWT with the user's identity as a JSON.
 
-For more details take a look at the [server.js](server.js) file.
+For more details take a look at the [AuthenticationService.java](src/main/java/com/virgilsecurity/demo/server/service/AuthenticationService.java) file.
 
 
 
