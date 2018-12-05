@@ -52,19 +52,54 @@ Now, use your client code to make a request to get a JWT from the sample backend
 
 You can verify the server with a command:
 
-```
+```bash
 $ curl -X POST -H "Content-Type: application/json" \
   -d '{"identity":"my_identity"}' \
   http://localhost:3000/authenticate
 ```
 
-The response should look like:
+The response should looks like:
 
-```
-{"token":"my_identity-0cfc6f0f-0024-4ea1-b5ac-93bb586c113d"}
+```json
+{"authToken":"my_identity-b5ba1680-4d5c-4b2e-9890-a0500d3c9bfe"}
 ```
 
-## Usage
+## Specification
+
+### /authenticate endpoint
+This endpoint is an example of users authentication. It takes user `identity` and responds with unique token.
+
+```http
+POST https://localhost:3000/authenticate HTTP/1.1
+Content-type: application/json;
+
+{
+    "identity": "string"
+}
+
+Response:
+
+{
+    "authToken": "string"
+}
+```
+
+### /virgil-jwt endpoint
+This endpoint checks whether a user is authorized by an authorization header. It takes user's `authToken`, finds related user identity and generates a `virgilToken` (which is [JSON Web Token](https://jwt.io/)) with this `identity` in a payload. Use this token to make authorized api calls to Virgil Cloud.
+
+```http
+GET https://localhost:3000/virgil-jwt HTTP/1.1
+Content-type: application/json;
+Authorization: Bearer <authToken>
+
+Response:
+
+{
+    "virgilToken": "string"
+}
+```
+
+## Virgil JWT Generation
 To generate JWT, you need to use the `JwtGenerator` class from the SDK.
 
 ```Java
