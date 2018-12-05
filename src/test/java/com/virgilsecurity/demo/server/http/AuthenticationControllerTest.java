@@ -4,9 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.virgilsecurity.demo.server.model.VirgilToken;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.virgilsecurity.demo.server.model.TokenData;
 
-import java.net.URI;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -22,7 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.util.MimeTypeUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -43,43 +44,83 @@ public class AuthenticationControllerTest {
 
   @Test
   public void login() {
-    URI uri = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/auth")
-        .queryParam("identity", this.identity).build().encode().toUri();
-    String authToken = this.restTemplate.getForObject(uri, String.class);
-    assertNotNull(authToken);
-    assertTrue(authToken.startsWith(this.identity));
+    HttpHeaders headers = new HttpHeaders();
+    headers.add(HttpHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE);
+
+    JsonObject body = new JsonObject();
+    body.addProperty("identity", this.identity);
+    HttpEntity<?> requestEntity = new HttpEntity<>(body.toString(), headers);
+
+    ResponseEntity<String> responseEntity = this.restTemplate.exchange(getAuthUrl(),
+        HttpMethod.POST, requestEntity, String.class);
+    assertNotNull(responseEntity);
+    assertEquals(200, responseEntity.getStatusCode().value());
+
+    JsonObject json = (JsonObject) new JsonParser().parse(responseEntity.getBody());
+    String token = json.get("token").getAsString();
+    assertNotNull(token);
+    assertTrue(token.startsWith(this.identity));
   }
 
   @Test
   public void generateToken_noLogin() {
-    URI uri = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/virgil-jwt").build()
-        .encode().toUri();
+    // Try to obtain Virgil JWT by unauthorized user
     HttpEntity<?> requestEntity = new HttpEntity<>(new HttpHeaders());
-    ResponseEntity<VirgilToken> responseEntity = this.restTemplate.exchange(uri, HttpMethod.GET,
-        requestEntity, VirgilToken.class);
+    ResponseEntity<TokenData> responseEntity = this.restTemplate.exchange(getJwtUrl(),
+        HttpMethod.GET, requestEntity, TokenData.class);
     assertNotNull(responseEntity);
     assertEquals(401, responseEntity.getStatusCode().value());
   }
 
   @Test
+  public void generateToken_wrongAuthToken() {
+    // Try to obtain Virgil JWT with invalid authentication token
+    HttpHeaders jwtHeaders = new HttpHeaders();
+    jwtHeaders.add("Authorization", "Bearer " + UUID.randomUUID().toString());
+    HttpEntity<?> jwtRequestEntity = new HttpEntity<>(jwtHeaders);
+    ResponseEntity<TokenData> jwtResponseEntity = this.restTemplate.exchange(getJwtUrl(),
+        HttpMethod.GET, jwtRequestEntity, TokenData.class);
+    assertNotNull(jwtResponseEntity);
+    assertEquals(401, jwtResponseEntity.getStatusCode().value());
+  }
+
+  @Test
   public void generateToken() {
-    URI uri = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/auth")
-        .queryParam("identity", this.identity).build().encode().toUri();
-    String authToken = this.restTemplate.getForObject(uri, String.class);
+    HttpHeaders authHeaders = new HttpHeaders();
+    authHeaders.add(HttpHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE);
 
-    uri = UriComponentsBuilder.fromHttpUrl("http://localhost:" + port + "/virgil-jwt").build()
-        .encode().toUri();
-    HttpHeaders headers = new HttpHeaders();
-    headers.add("auth_token", authToken);
-    HttpEntity<?> requestEntity = new HttpEntity<>(headers);
-    ResponseEntity<VirgilToken> responseEntity = this.restTemplate.exchange(uri, HttpMethod.GET,
-        requestEntity, VirgilToken.class);
-    assertNotNull(responseEntity);
-    assertEquals(200, responseEntity.getStatusCode().value());
+    JsonObject authBody = new JsonObject();
+    authBody.addProperty("identity", this.identity);
+    HttpEntity<?> authRequestEntity = new HttpEntity<>(authBody.toString(), authHeaders);
 
-    VirgilToken virgilToken = responseEntity.getBody();
+    ResponseEntity<TokenData> authResponseEntity = this.restTemplate.exchange(getAuthUrl(),
+        HttpMethod.POST, authRequestEntity, TokenData.class);
+    assertNotNull(authResponseEntity);
+    assertEquals(200, authResponseEntity.getStatusCode().value());
+
+    TokenData tokenData = authResponseEntity.getBody();
+    assertNotNull(tokenData);
+    assertNotNull(tokenData.getToken());
+
+    HttpHeaders jwtHeaders = new HttpHeaders();
+    jwtHeaders.add("Authorization", "Bearer " + tokenData.getToken());
+    HttpEntity<?> jwtRequestEntity = new HttpEntity<>(jwtHeaders);
+    ResponseEntity<TokenData> jwtResponseEntity = this.restTemplate.exchange(getJwtUrl(),
+        HttpMethod.GET, jwtRequestEntity, TokenData.class);
+    assertNotNull(jwtResponseEntity);
+    assertEquals(200, jwtResponseEntity.getStatusCode().value());
+
+    TokenData virgilToken = jwtResponseEntity.getBody();
     assertNotNull(virgilToken);
-    assertNotNull(virgilToken.getJwt());
+    assertNotNull(virgilToken.getToken());
+  }
+
+  private String getAuthUrl() {
+    return "http://localhost:" + port + "/authenticate";
+  }
+
+  private String getJwtUrl() {
+    return "http://localhost:" + port + "/virgil-jwt";
   }
 
 }

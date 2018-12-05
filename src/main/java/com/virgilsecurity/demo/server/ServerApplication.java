@@ -25,8 +25,8 @@ public class ServerApplication {
   @Value("${virgil.api.private_key}")
   String apiKey;
 
-  @Value("${virgil.api.public_key_id}")
-  String apiPublicKeyIdentifier;
+  @Value("${virgil.api.key_id}")
+  String apiKeyIdentifier;
 
   public static void main(String[] args) {
     SpringApplication.run(ServerApplication.class, args);
@@ -38,7 +38,7 @@ public class ServerApplication {
     PrivateKey privateKey = crypto.importPrivateKey(ConvertionUtils.base64ToBytes(this.apiKey));
     AccessTokenSigner accessTokenSigner = new VirgilAccessTokenSigner();
 
-    JwtGenerator jwtGenerator = new JwtGenerator(appId, privateKey, apiPublicKeyIdentifier,
+    JwtGenerator jwtGenerator = new JwtGenerator(appId, privateKey, apiKeyIdentifier,
         TimeSpan.fromTime(1, TimeUnit.HOURS), accessTokenSigner);
 
     return jwtGenerator;
