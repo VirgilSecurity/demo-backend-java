@@ -2,6 +2,8 @@
 
 This repository contains a sample backend code that demonstrates how to generate a Virgil JWT using the [Java/Android SDK](https://github.com/VirgilSecurity/virgil-sdk-java-android)
 
+> Do not use this authentication in production. Requests to a /virgil-jwt endpoint must be allowed for authenticated users. Use your application authorization strategy.
+
 ## Prerequisites
 
 * Java Development Kit (JDK) 8+
