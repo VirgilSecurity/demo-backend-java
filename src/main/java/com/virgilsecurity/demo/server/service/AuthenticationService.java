@@ -34,12 +34,11 @@ public class AuthenticationService {
     if (StringUtils.isBlank(authToken)) {
       return null;
     }
-    String identity = this.authTokens.get(authToken);
-    return identity;
+    String token = authToken.split(" ")[1];
+    return this.authTokens.get(token);
   }
 
   public Jwt generateVirgilToken(String identity) throws CryptoException {
     return jwtGenerator.generateToken(identity);
   }
-
 }
