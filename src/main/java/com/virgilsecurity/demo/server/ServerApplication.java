@@ -25,7 +25,7 @@ public class ServerApplication {
   @Value("${virgil.api.private_key}")
   String apiKey;
 
-  @Value("${virgil.api.key_id}")
+  @Value("${virgil.api.public_key_id}")
   String apiKeyIdentifier;
 
   public static void main(String[] args) {
