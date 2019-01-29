@@ -5,17 +5,19 @@ This repository contains a sample backend code that demonstrates how to generate
 > Do not use this authentication in production. Requests to a /virgil-jwt endpoint must be allowed for authenticated users. Use your application authorization strategy.
 
 ## Prerequisites
+For simple run:
+* IntelliJ IDEA 2018.3.3+
 
+For building a jar:
 * Java Development Kit (JDK) 8+
 * Maven 3+
 
-## Clone
-
-Clone the repository from GitHub.
-
-```
-$ git clone https://github.com/VirgilSecurity/e3kit-kotlin.git
-```
+## Simple run
+- Open IntelliJ IDEA
+- File -> New -> Project from Version Control -> Git
+- Enter https://github.com/VirgilSecurity/e3kit-kotlin
+- Fill in your [credentials](#get-virgil-credentials) into the `sample-backend-java/src/main/resources/`[`application.properties`](https://github.com/VirgilSecurity/sample-backend-java/blob/master/src/main/resources/application.properties) file.
+- Run application
 
 ## Get Virgil Credentials
 
@@ -29,7 +31,19 @@ To generate a JWT the following values are required:
 | virgil.api.private_key            | Private key of your API key that is used to sign the JWTs. |
 | virgil.api.key_id                 | ID of your API key. A unique string value that identifies your account in the Virgil Cloud. |
 
-## Build sources
+## Building a Jar
+
+Possibly, you want to build a Jar to deploy it on a remote server (e.g. [Now](https://zeit.co/now), [Heroku](https://www.heroku.com/)).
+
+### Clone
+
+Clone the repository from GitHub.
+
+```
+$ git clone https://github.com/VirgilSecurity/e3kit-kotlin.git
+```
+
+### Build sources
 
 ```
 $ mvn clean package -DskipTests
@@ -37,14 +51,14 @@ $ mvn clean package -DskipTests
 
 JAR file will be build in `target` directory.
 
-## Add Virgil Credentials to `application.properties`
+### Add Virgil Credentials to *application.properties*
 
 - open `target` directory at the project folder
 - create a `application.properties` file
-- fill it with your account credentials (take a look at the `application.properties.example` file to find out how to setup your own `application.properties` file)
+- fill it with your account credentials (take a look at the [`application.properties`](https://github.com/VirgilSecurity/sample-backend-java/blob/master/src/main/resources/application.properties) file to find out how to setup your own `application.properties` file)
 - save the `application.properties` file
 
-## Run the Server
+### Run the Server
 
 ```
 $ java -jar server.jar
