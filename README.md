@@ -5,17 +5,19 @@ This repository contains a sample backend code that demonstrates how to generate
 > Do not use this authentication in production. Requests to a /virgil-jwt endpoint must be allowed for authenticated users. Use your application authorization strategy.
 
 ## Prerequisites
-For simple run:
+* Java Development Kit (JDK) 8+
+
+For IntelliJ IDEA run:
 * IntelliJ IDEA 2018.3.3+
 
 For building a jar:
-* Java Development Kit (JDK) 8+
 * Maven 3+
 
-## Simple run
-- Open IntelliJ IDEA
-- File -> New -> Project from Version Control -> Git
-- Enter https://github.com/VirgilSecurity/sample-backend-java
+## IntelliJ IDEA run
+- git clone https://github.com/VirgilSecurity/sample-backend-java
+- Open IntelliJ IDEA -> File -> New -> Project from Existing Sources, locate `sample-backend-java` and click `open`
+- Select `Import project from external model` -> `Maven`, go `next` till `Please select project SDK` page
+- Select in list of available JDKs `1.8.xxx` version. If you haven't JDK of `1.8.xxx` version [install](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) it. `Finish` setup.
 - Fill in your [credentials](#get-virgil-credentials) into the `sample-backend-java/src/main/resources/`[`application.properties`](https://github.com/VirgilSecurity/sample-backend-java/blob/master/src/main/resources/application.properties) file.
 - Run application
 
@@ -24,6 +26,8 @@ If server started successfully you will see in the end of logs:
 : Tomcat started on port(s): 3000 (http)
 : Started ServerApplication
 ```
+
+> If you get error `Error:java: javacTask: source release 8 requires target release 1.8` go to IntelliJ IDEA -> Preferences -> Build, Execution, Deployment -> Compiler -> Java Compiler and select `8` in `Project bytecode version` field.
 
 ## Get Virgil Credentials
 
