@@ -17,7 +17,7 @@ For building a jar:
 - git clone https://github.com/VirgilSecurity/sample-backend-java
 - Open IntelliJ IDEA -> File -> New -> Project from Existing Sources, locate `sample-backend-java` and click `open`
 - Select `Import project from external model` -> `Maven`, go `next` till `Please select project SDK` page
-- Select in list of available JDKs `1.8.xxx` version. If you haven't JDK of `1.8.xxx` version [install](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) it. `Finish` setup.
+- Select in list of available JDKs `1.8.xxx` version or greater. If you haven't JDK of `1.8.xxx` version [install](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) it. `Finish` setup.
 - Fill in your [credentials](#get-virgil-credentials) into the `sample-backend-java/src/main/resources/`[`application.properties`](https://github.com/VirgilSecurity/sample-backend-java/blob/master/src/main/resources/application.properties) file.
 - Run application
 
