@@ -19,6 +19,12 @@ For building a jar:
 - Fill in your [credentials](#get-virgil-credentials) into the `sample-backend-java/src/main/resources/`[`application.properties`](https://github.com/VirgilSecurity/sample-backend-java/blob/master/src/main/resources/application.properties) file.
 - Run application
 
+If server started successfully you will see in the end of logs:
+```
+: Tomcat started on port(s): 3000 (http)
+: Started ServerApplication
+```
+
 ## Get Virgil Credentials
 
 If you don't have an account yet, [sign up for one](https://dashboard.virgilsecurity.com/signup) using your e-mail.
