@@ -7,20 +7,17 @@ import static org.junit.Assert.assertTrue;
 import com.virgilsecurity.demo.server.model.AuthRequest;
 import com.virgilsecurity.demo.server.model.AuthResponse;
 import com.virgilsecurity.demo.server.model.VirgilTokenResponse;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.UUID;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
