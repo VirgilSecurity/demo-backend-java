@@ -15,7 +15,7 @@ For building a jar:
 ## Simple run
 - Open IntelliJ IDEA
 - File -> New -> Project from Version Control -> Git
-- Enter https://github.com/VirgilSecurity/e3kit-kotlin
+- Enter https://github.com/VirgilSecurity/sample-backend-java
 - Fill in your [credentials](#get-virgil-credentials) into the `sample-backend-java/src/main/resources/`[`application.properties`](https://github.com/VirgilSecurity/sample-backend-java/blob/master/src/main/resources/application.properties) file.
 - Run application
 
