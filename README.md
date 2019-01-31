@@ -50,7 +50,7 @@ Possibly, you want to build a Jar to deploy it on a remote server (e.g. [Now](ht
 Clone the repository from GitHub.
 
 ```
-$ git clone https://github.com/VirgilSecurity/e3kit-kotlin.git
+$ git clone https://github.com/VirgilSecurity/sample-backend-java
 ```
 
 ### Build sources
