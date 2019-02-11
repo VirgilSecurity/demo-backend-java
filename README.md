@@ -7,13 +7,14 @@ This repository contains a sample backend code that demonstrates how to generate
 ## Prerequisites
 * Java Development Kit (JDK) 8+
 
-For IntelliJ IDEA run:
-* IntelliJ IDEA 2018.3.3+
+For IntelliJ IDEA Ultimate run:
+* IntelliJ IDEA Ultimate 2018.3.3+
+> If you have Community version of IDEA - go to `Building a Jar` section.
 
 For building a jar:
 * Maven 3+
 
-## IntelliJ IDEA run
+## IntelliJ IDEA Ultimate run
 - git clone https://github.com/VirgilSecurity/sample-backend-java
 - Open IntelliJ IDEA -> File -> New -> Project from Existing Sources, locate `sample-backend-java` and click `open`
 - Select `Import project from external model` -> `Maven`, go `next` till `Please select project SDK` page
