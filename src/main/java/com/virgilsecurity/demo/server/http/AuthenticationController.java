@@ -37,6 +37,7 @@ public class AuthenticationController {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
     Jwt token = authService.generateVirgilToken(identity);
-    return new ResponseEntity<>(new VirgilTokenResponse(token.stringRepresentation()), HttpStatus.OK);
+    return new ResponseEntity<>(new VirgilTokenResponse(token.stringRepresentation()),
+                                HttpStatus.OK);
   }
 }
