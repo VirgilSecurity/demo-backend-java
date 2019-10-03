@@ -39,8 +39,8 @@ To generate a JWT the following values are required:
 | Variable Name                     | Description                    |
 |-----------------------------------|--------------------------------|
 | virgil.app.id                     | ID of your Virgil Application. |
-| virgil.api.private_key            | Private key of your API key that is used to sign the JWTs. |
-| virgil.api.key_id                 | ID of your API key. A unique string value that identifies your account in the Virgil Cloud. |
+| virgil.app.private_key            | Private key of your APP key that is used to sign the JWTs. |
+| virgil.app.key_id                 | ID of your APP key. A unique string value that identifies your account in the Virgil Cloud. |
 
 ## Building a Jar
 
@@ -132,10 +132,10 @@ To generate JWT, you need to use the `JwtGenerator` class from the SDK.
 ```Java
 public JwtGenerator jwtGenerator() throws CryptoException {
     VirgilCrypto crypto = new VirgilCrypto();
-    PrivateKey privateKey = crypto.importPrivateKey(ConvertionUtils.base64ToBytes(this.apiKey));
+    PrivateKey privateKey = crypto.importPrivateKey(ConvertionUtils.base64ToBytes(this.appKey));
     AccessTokenSigner accessTokenSigner = new VirgilAccessTokenSigner();
 
-    JwtGenerator jwtGenerator = new JwtGenerator(appId, privateKey, apiKeyIdentifier,
+    JwtGenerator jwtGenerator = new JwtGenerator(appId, privateKey, appKeyIdentifier,
         TimeSpan.fromTime(1, TimeUnit.HOURS), accessTokenSigner);
 
     return jwtGenerator;

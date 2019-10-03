@@ -22,10 +22,10 @@ public class ServerApplication {
   @Value("${virgil.app.id}")
   String appId;
 
-  @Value("${virgil.api.private_key}")
+  @Value("${virgil.app.private_key}")
   String apiKey;
 
-  @Value("${virgil.api.key_id}")
+  @Value("${virgil.app.key_id}")
   String apiKeyIdentifier;
 
   public static void main(String[] args) {
