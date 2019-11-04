@@ -6,13 +6,14 @@ import com.virgilsecurity.demo.server.model.VirgilTokenResponse;
 import com.virgilsecurity.demo.server.service.AuthenticationService;
 import com.virgilsecurity.sdk.crypto.exceptions.CryptoException;
 import com.virgilsecurity.sdk.jwt.Jwt;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,12 +31,14 @@ public class AuthenticationController {
 
   @RequestMapping("/virgil-jwt")
   public ResponseEntity<VirgilTokenResponse> getVirgilToken(
-      @RequestHeader(name = "Authorization", required = false) String authToken)
+//      @RequestHeader(name = "Authorization", required = false) String authToken
+      @RequestParam("identity") String identity
+  )
       throws CryptoException {
-    String identity = authService.getIdentity(authToken);
-    if (identity == null) {
-      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
+//    String identity = authService.getIdentity(authToken);
+//    if (identity == null) {
+//      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//    }
     Jwt token = authService.generateVirgilToken(identity);
     return new ResponseEntity<>(new VirgilTokenResponse(token.stringRepresentation()),
                                 HttpStatus.OK);
